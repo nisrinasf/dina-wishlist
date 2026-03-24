@@ -3,6 +3,18 @@ import Show from './Show';
 
 export default function Form() {
 
+  let buttonStyle = {
+            border: 'none',
+        outline: '0',
+        padding: '12px',
+        color: 'white',
+        backgroundColor: 'indigo',
+        textAlign: 'center',
+        cursor: 'pointer',
+        width: '100%',
+        borderRadius: '8px',
+        fontSize: '15px',
+  }
   let initialBooks = [
     {id: 0 ,judul: 'Rindu', selesai: true, harga: '100.000'},
     {id: 1 ,judul: 'Daun Yang Jatuh Tidak Pernah Membenci Angin', selesai: false, harga: '91.000'},
@@ -54,6 +66,10 @@ export default function Form() {
       }
     }));
   }
+
+  function setEnable(){
+    return true
+  }
   
   return (
     <>
@@ -76,6 +92,7 @@ export default function Form() {
         placeholder='Judul'
           value={books.judul}
           name='judul'
+          required
           onChange={handleJudulChange}
         />
      
@@ -87,12 +104,14 @@ export default function Form() {
         }}
         placeholder='Harga'
           value={books.harga}
+          required
           onChange={handleHargaChange}
         />
        
         <br />
         <button 
         type='button'
+        
         style={{
             width: '250px',
             padding: '10px 5px',
@@ -103,7 +122,7 @@ export default function Form() {
             fontSize: '15px',
         }}
         disabled={
-          books.length === 0 
+          books.judul.length === 0 || books.harga.length === 0 
         }
         onClick={() => handleClick(answer.length)}
         >
@@ -145,23 +164,18 @@ export default function Form() {
      
      <p style={{  position: 'absolute',
         bottom: '10px', left: '10px', right: '10px'}}>
-        <button 
+        { e.selesai ? (<button 
+        type='button'
+        disabled
+        onClick={() => handleWish(e.id)}
+        style={
+        {...buttonStyle, ...{backgroundColor: 'grey'}} 
+     }>Wishlist</button>) : (<button 
         type='button'
         onClick={() => handleWish(e.id)}
         style={
-        {
-        border: 'none',
-        outline: '0',
-        padding: '12px',
-        color: 'white',
-        backgroundColor: 'indigo',
-        textAlign: 'center',
-        cursor: 'pointer',
-        width: '100%',
-        borderRadius: '8px',
-        fontSize: '15px',
-        }
-     }>Wishlist</button></p>
+        buttonStyle
+     }>Wishlist</button>)}</p>
 
     </div>
     ))}
