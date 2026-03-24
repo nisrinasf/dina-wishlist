@@ -4,12 +4,12 @@ import Show from './Show';
 export default function Form() {
 
   let initialBooks = [
-    {judul: 'Rindu', harga: '100.000'},
-    {judul: 'Daun Yang Jatuh Tidak Pernah Membenci Angin', harga: '91.000'},
-    {judul: 'Hafalan SHolat Delisa', harga: '88.000'},
-    {judul: 'Ayahku Bukan Pembohong', harga: '87.000'},
-    {judul: 'Bumi', harga: '100.000'},
-    {judul: 'Seni Bersikap Bodo Amat', harga: '99.000'},
+    {id: 0 ,judul: 'Rindu', selesai: true, harga: '100.000'},
+    {id: 1 ,judul: 'Daun Yang Jatuh Tidak Pernah Membenci Angin', selesai: false, harga: '91.000'},
+    {id: 2 ,judul: 'Hafalan SHolat Delisa', selesai: false, harga: '88.000'},
+    {id: 3 ,judul: 'Ayahku Bukan Pembohong', selesai: true, harga: '87.000'},
+    {id: 4 ,judul: 'Bumi', selesai: false, harga: '100.000'},
+    {id: 5 ,judul: 'Seni Bersikap Bodo Amat', selesai: false, harga: '99.000'},
 
   ]
   const [answer, setAnswer] = useState(initialBooks);
@@ -30,16 +30,27 @@ export default function Form() {
     });
   }
 
- function handleClick(){
+ function handleClick(num){
       setAnswer([
           ...answer,
-          { judul: books.judul, harga: books.harga }
+          { id:num,  judul: books.judul, harga: books.harga, selesai: false }
         ]);
 
         setBooks({
             ...books,
             harga: '', judul: ''
         })
+ }
+
+ function handleWish(id){
+  setAnswer(answer.map(item => {
+      if (item.id == id) {
+        return {
+          ...item,
+          judul: 'HAHAHAHAH',
+        };
+      }
+    }));
  }
   
   return (
@@ -79,6 +90,7 @@ export default function Form() {
        
         <br />
         <button 
+        type='button'
         style={{
             width: '250px',
             padding: '10px 5px',
@@ -88,11 +100,10 @@ export default function Form() {
             color: 'white',
                fontSize: '15px',
         }}
-        type='button'
         disabled={
           books.length === 0 
         }
-        onClick={handleClick}
+        onClick={() => handleClick(answer.length)}
         >
           Tambahkan
         </button>
@@ -108,29 +119,35 @@ export default function Form() {
         flexWrap: 'wrap-reverse',
         justifyContent: 'end',
         alignItems: 'end',
-        flexDirection: 'row-reverse'
+        flexDirection: 'row-reverse',
+        
         }
     }>
 
     {answer.map((e,i) => (
-    <div className='card' style={{
+    <div className='card'  key={e.id} style={{
         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-        maxWidth: '300px',
         width: '250px',
+        height: '200px',
         margin: 'auto',
-        padding: '10px 20px 20px 20px',
-        textAlign: 'center'
+        padding: '10px 20px 0px 20px',
+        textAlign: 'center',
+        position: 'relative'
     }}>
-      <h3>{e.judul}</h3>
+      <h3 style={{minHeight: '50px'}}>{e.judul}</h3>
      <p className="price" style={{
          color: 'grey',
          fontSize:' 15px',
-         padding: '10px 0'
+         padding: '10px 0 0 0'
      }} >Rp.{e.harga}</p>
      
-     <p><button style={
+     <p style={{  position: 'absolute',
+        bottom: '10px', left: '10px', right: '10px'}}>
+        <button 
+        type='button'
+        onClick={() => handleWish(e.id)}
+        style={
         {
-        padding: '10px 0px',
         border: 'none',
         outline: '0',
         padding: '12px',
@@ -139,7 +156,7 @@ export default function Form() {
         textAlign: 'center',
         cursor: 'pointer',
         width: '100%',
-         borderRadius: '8px',
+        borderRadius: '8px',
         fontSize: '15px',
         }
      }>Wishlist</button></p>
