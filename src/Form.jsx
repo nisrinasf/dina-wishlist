@@ -42,16 +42,18 @@ export default function Form() {
         })
  }
 
- function handleWish(id){
-  setAnswer(answer.map(item => {
+  function handleWish(id) {
+    setAnswer(answer.map(item => {
       if (item.id == id) {
         return {
           ...item,
-          judul: 'HAHAHAHAH',
+          selesai: true,
         };
+      } else {
+        return item;
       }
     }));
- }
+  }
   
   return (
     <>
@@ -98,7 +100,7 @@ export default function Form() {
             borderRadius: '8px',
             backgroundColor: 'indigo',
             color: 'white',
-               fontSize: '15px',
+            fontSize: '15px',
         }}
         disabled={
           books.length === 0 
